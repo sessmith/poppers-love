@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Love You Baby Girl 💖</title>
+<style>
+  body {
+    background: radial-gradient(circle at top, #ffe6f2, #ffb3d9);
+    overflow: hidden;
+    margin: 0;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  h1 {
+    position: absolute;
+    bottom: 20%;
+    font-size: 2.5em;
+    color: #ff1493;
+    opacity: 0;
+    transition: opacity 2s ease;
+  }
+
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: pink;
+    animation: pop 3s linear infinite;
+    opacity: 0;
+    border-radius: 50%;
+  }
+
+  @keyframes pop {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(800px) scale(0.5);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+<body>
+<h1 id="message">I love you, baby girl 💖</h1>
+
+<script>
+  const colors = ["#ff66b2", "#ff99cc", "#ffccff", "#ff3385", "#ffb6c1", "#ffc0cb"];
+  const numPoppers = 200;
+
+  for (let i = 0; i < numPoppers; i++) {
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.top = "-10px";
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
+    confetti.style.width = confetti.style.height = Math.random() * 10 + 5 + "px";
+    confetti.style.animationDelay = Math.random() * 5 + "s";
+    document.body.appendChild(confetti);
+  }
+
+  setTimeout(() => {
+    document.getElementById("message").style.opacity = 1;
+  }, 5000);
+</script>
+</body>
+</html>
