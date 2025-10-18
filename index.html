@@ -1,75 +1,291 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>I Love You Baby Girl 💖</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Pop! — I love you, baby girl 💋</title>
 <style>
-  body {
-    background: radial-gradient(circle at top, #ffe6f2, #ffb3d9);
-    overflow: hidden;
-    margin: 0;
-    height: 100vh;
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+  :root{
+    --bg1: #fff0f6;
+    --bg2: #fff6f9;
+    --accent: #ff4d82;
+    --muted: #6b2b44;
   }
-
-  h1 {
-    position: absolute;
-    bottom: 20%;
-    font-size: 2.5em;
-    color: #ff1493;
-    opacity: 0;
-    transition: opacity 2s ease;
+  html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,var(--bg1),var(--bg2));display:flex;align-items:center;justify-content:center;padding:24px;}
+  .stage{
+    width:min(1100px,98%);height:min(700px,90vh);background:white;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,0.08);position:relative;overflow:hidden;display:flex;flex-direction:column;
   }
-
-  .confetti {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: pink;
-    animation: pop 3s linear infinite;
-    opacity: 0;
-    border-radius: 50%;
+  header{padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+  h1{margin:0;font-size:18px;color:var(--muted)}
+  .controls{display:flex;gap:8px;align-items:center}
+  button{background:linear-gradient(180deg,var(--accent),#ff2b68);color:white;border:0;padding:8px 12px;border-radius:10px;font-weight:700;cursor:pointer;box-shadow:0 6px 16px rgba(255,77,130,0.18)}
+  button.ghost{background:transparent;color:var(--accent);box-shadow:none;border:1px solid rgba(255,77,130,0.12)}
+  /* play area */
+  .playArea{flex:1;position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:12px}
+  /* popper (circle) */
+  .popper{
+    width:86px;height:86px;border-radius:50%;display:grid;place-items:center;font-size:28px;background:linear-gradient(180deg,#fff, #ffe7f0);border:2px solid rgba(255,77,130,0.08);
+    box-shadow:0 8px 30px rgba(255,77,130,0.08), inset 0 -6px 14px rgba(255,77,130,0.03);
+    position:absolute; transform:translate(-50%,-50%); user-select:none;
   }
-
-  @keyframes pop {
-    0% {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(800px) scale(0.5);
-      opacity: 0;
-    }
+  /* confetti pieces */
+  .piece{
+    position:absolute;pointer-events:none;font-size:18px;will-change:transform,opacity;
+    text-shadow:0 1px 0 rgba(0,0,0,0.05);
+  }
+  /* final message */
+  .message{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:20px;pointer-events:none;
+  }
+  .msgText{
+    font-size:40px;font-weight:800;color:var(--accent);opacity:0;transform:translateY(10px);
+    letter-spacing:0.8px;text-align:center;
+  }
+  .sub{
+    margin-top:8px;color:var(--muted);font-weight:600;opacity:0;transform:translateY(10px)
+  }
+  /* reveal animations */
+  .showText { animation:reveal 900ms cubic-bezier(.2,.9,.2,1) forwards; }
+  .showSub { animation:reveal 900ms cubic-bezier(.2,.9,.2,1) forwards; animation-delay:400ms; }
+  @keyframes reveal {
+    to { opacity:1; transform:translateY(0); }
+  }
+  /* small replay button overlay */
+  .replayWrap{position:absolute;right:16px;bottom:16px;z-index:40}
+  /* subtle background hearts */
+  .bgHeart{position:absolute;font-size:120px;opacity:0.06;pointer-events:none;transform:translate(-50%,-50%); filter:blur(1px)}
+  /* responsive */
+  @media (max-width:600px){
+    .msgText{font-size:28px}
+    .popper{width:68px;height:68px;font-size:22px}
   }
 </style>
 </head>
 <body>
-<h1 id="message">I love you, baby girl 💖</h1>
+  <div class="stage" id="stage" role="main" aria-live="polite">
+    <header>
+      <h1>Pop the poppers — surprise message</h1>
+      <div class="controls" aria-hidden="false">
+        <button id="start">Play</button>
+        <button id="replay" class="ghost">Replay</button>
+      </div>
+    </header>
+
+    <div class="playArea" id="playArea">
+      <!-- decorative background hearts -->
+      <div class="bgHeart" style="left:15%;top:12%">💞</div>
+      <div class="bgHeart" style="left:85%;top:24%">💕</div>
+      <div class="bgHeart" style="left:50%;top:88%">💗</div>
+
+      <!-- message overlay -->
+      <div class="message" id="message" aria-hidden="true">
+        <div id="msgText" class="msgText">I love you, baby girl</div>
+        <div id="msgSub" class="sub">Always & forever 💋</div>
+      </div>
+    </div>
+
+    <div class="replayWrap">
+      <button id="replayBtn" class="ghost">Replay</button>
+    </div>
+  </div>
 
 <script>
-  const colors = ["#ff66b2", "#ff99cc", "#ffccff", "#ff3385", "#ffb6c1", "#ffc0cb"];
-  const numPoppers = 200;
+  // Configuration
+  const POPPERS = 8;           // how many poppers will pop, sequentially
+  const PIECES_PER_POP = 28;   // pieces per popper
+  const POP_INTERVAL = 520;    // ms between popper starts
+  const STAGE = document.getElementById('stage');
+  const PLAY = document.getElementById('playArea');
+  const startBtn = document.getElementById('start');
+  const replayBtn = document.getElementById('replayBtn');
+  const replayHeaderBtn = document.getElementById('replay');
+  const message = document.getElementById('message');
+  const msgText = document.getElementById('msgText');
+  const msgSub = document.getElementById('msgSub');
 
-  for (let i = 0; i < numPoppers; i++) {
-    const confetti = document.createElement("div");
-    confetti.classList.add("confetti");
-    confetti.style.left = Math.random() * 100 + "vw";
-    confetti.style.top = "-10px";
-    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
-    confetti.style.width = confetti.style.height = Math.random() * 10 + 5 + "px";
-    confetti.style.animationDelay = Math.random() * 5 + "s";
-    document.body.appendChild(confetti);
+  // Emoji pool for pieces
+  const PIECE_EMOJI = ['💋','🎉','💖','🌟','💞','✨','❤️','💕'];
+
+  // Utility: random in range
+  const rand = (min,max) => Math.random()*(max-min)+min;
+
+  // Create a popper at (x,y) relative to play area (0..1)
+  function createPopper(normalX, normalY, index){
+    const r = PLAY.getBoundingClientRect();
+    const x = r.left + normalX * r.width;
+    const y = r.top + normalY * r.height;
+    const pop = document.createElement('div');
+    pop.className = 'popper';
+    pop.style.left = `${normalX*100}%`;
+    pop.style.top = `${normalY*100}%`;
+    pop.style.zIndex = 30 + index;
+    pop.innerHTML = '🎈';
+    PLAY.appendChild(pop);
+    return {el: pop, x: x, y: y};
   }
 
-  setTimeout(() => {
-    document.getElementById("message").style.opacity = 1;
-  }, 5000);
+  // Burst pieces
+  function burst(popperObj, pieces = PIECES_PER_POP){
+    const {el, x, y} = popperObj;
+    // pop sound visual effect (scale + fade)
+    el.animate([
+      { transform: 'translate(-50%,-50%) scale(1)', opacity:1 },
+      { transform: 'translate(-50%,-50%) scale(1.25)', opacity:0.95 },
+      { transform: 'translate(-50%,-50%) scale(0.2)', opacity:0 }
+    ], { duration: 420, easing: 'cubic-bezier(.2,.9,.2,1)' });
+
+    for(let i=0;i<pieces;i++){
+      const piece = document.createElement('div');
+      piece.className = 'piece';
+      piece.textContent = PIECE_EMOJI[Math.floor(Math.random()*PIECE_EMOJI.length)];
+      // position at center
+      piece.style.left = (x - PLAY.getBoundingClientRect().left) + 'px';
+      piece.style.top = (y - PLAY.getBoundingClientRect().top) + 'px';
+      // random velocity and rotation
+      const angle = rand(0, Math.PI*2);
+      const speed = rand(140, 520); // px per second
+      const vx = Math.cos(angle)*speed;
+      const vy = Math.sin(angle)*speed - rand(80,240); // give upward bias
+      const rot = rand(-720,720);
+      PLAY.appendChild(piece);
+
+      // Animate using Web Animations API for smoother results
+      const duration = rand(700, 1400);
+      const translateX = vx;
+      const translateY = vy + 400; // gravity pull over duration
+      piece.animate([
+        { transform: `translate(0px,0px) rotate(0deg)`, opacity:1 },
+        { transform: `translate(${translateX}px, ${translateY}px) rotate(${rot}deg)`, opacity:0 }
+      ], {
+        duration: duration,
+        easing: 'cubic-bezier(.15,.8,.35,1)',
+        fill: 'forwards'
+      });
+
+      // cleanup after animation
+      setTimeout(()=> piece.remove(), duration + 80);
+    }
+
+    // remove popper circle after short delay
+    setTimeout(()=> el.remove(), 520);
+  }
+
+  // Sequenced poppers across the stage
+  function playSequence(){
+    // reset message and clear older pieces
+    message.style.pointerEvents = 'none';
+    message.setAttribute('aria-hidden','true');
+    msgText.classList.remove('showText');
+    msgSub.classList.remove('showSub');
+    msgText.style.opacity = 0;
+    msgSub.style.opacity = 0;
+
+    // optionally clear stray pieces
+    Array.from(document.querySelectorAll('.piece, .popper')).forEach(n=>n.remove());
+
+    // compute positions (spread across lower half to center)
+    const positions = [];
+    for(let i=0;i<POPPERS;i++){
+      const t = i/(POPPERS-1 || 1);
+      const nx = 0.12 + 0.76*t + rand(-0.04,0.04);
+      const ny = 0.42 + Math.sin(t*Math.PI*1.2)*0.06 + rand(-0.03,0.03);
+      positions.push({x: Math.min(0.94, Math.max(0.06, nx)), y: Math.min(0.78, Math.max(0.18, ny))});
+    }
+
+    // schedule poppers
+    positions.forEach((pos, idx) => {
+      setTimeout(()=>{
+        const popper = createPopper(pos.x, pos.y, idx);
+        // small bounce to indicate pop
+        popper.el.animate([
+          { transform: 'translate(-50%,-50%) scale(0.98)' },
+          { transform: 'translate(-50%,-50%) scale(1.06)' },
+          { transform: 'translate(-50%,-50%) scale(1)' }
+        ], { duration: 220, easing: 'cubic-bezier(.2,.9,.2,1)'});
+        // after short delay, burst
+        setTimeout(()=> burst(popper, PIECES_PER_POP), 160);
+        // if last popper, show message after a short pause
+        if (idx === positions.length-1){
+          setTimeout(()=> revealMessage(), 900);
+        }
+      }, idx * POP_INTERVAL);
+    });
+  }
+
+  // Reveal final message with typing/fade
+  function revealMessage(){
+    message.style.pointerEvents = 'auto';
+    message.setAttribute('aria-hidden','false');
+    // typing effect: reveal chars one by one
+    const final = "I love you, baby girl";
+    const sub = "Always & forever 💋";
+    msgText.textContent = ''; msgSub.textContent = '';
+    // create typing timeline for text
+    let i = 0;
+    function step(){
+      if (i <= final.length){
+        msgText.textContent = final.slice(0,i);
+        i++;
+        setTimeout(step, 42);
+      } else {
+        // add show classes for polish
+        msgText.classList.add('showText');
+        // after small pause reveal sub
+        setTimeout(()=>{
+          msgSub.textContent = sub;
+          msgSub.classList.add('showSub');
+        }, 420);
+      }
+    }
+    step();
+    // also create a soft shower of tiny hearts during reveal
+    createSoftHearts(16);
+  }
+
+  function createSoftHearts(n){
+    const r = PLAY.getBoundingClientRect();
+    for(let k=0;k<n;k++){
+      const el = document.createElement('div');
+      el.className = 'piece';
+      el.textContent = ['💗','💞','💕'][Math.floor(Math.random()*3)];
+      // start near center
+      el.style.left = (r.width*0.5 + rand(-120,120)) + 'px';
+      el.style.top = (r.height*0.35 + rand(-30,30)) + 'px';
+      PLAY.appendChild(el);
+      const dur = rand(900,1700);
+      const dx = rand(-140,140), dy = rand(-240,-60);
+      el.animate([
+        { transform: 'translate(0px,0px) scale(1)', opacity:1 },
+        { transform: `translate(${dx}px, ${dy}px) scale(1.15)`, opacity:0.02 }
+      ], { duration: dur, easing:'cubic-bezier(.2,.9,.2,1)', fill:'forwards' });
+      setTimeout(()=> el.remove(), dur+80);
+    }
+  }
+
+  // Hook up buttons
+  startBtn.addEventListener('click', ()=>{
+    playSequence();
+  });
+  replayBtn.addEventListener('click', ()=>{
+    playSequence();
+  });
+  replayHeaderBtn.addEventListener('click', ()=>{
+    playSequence();
+  });
+
+  // Auto-play once on load (optional)
+  window.addEventListener('load', ()=> {
+    // slight delay so layout stabilizes
+    setTimeout(()=> playSequence(), 420);
+  });
+
+  // accessibility: allow space to replay
+  window.addEventListener('keydown', (e)=>{
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      playSequence();
+    }
+  });
 </script>
 </body>
 </html>
