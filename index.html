@@ -1,291 +1,211 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Pop! — I love you, baby girl 💋</title>
-<style>
-  :root{
-    --bg1: #fff0f6;
-    --bg2: #fff6f9;
-    --accent: #ff4d82;
-    --muted: #6b2b44;
-  }
-  html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,var(--bg1),var(--bg2));display:flex;align-items:center;justify-content:center;padding:24px;}
-  .stage{
-    width:min(1100px,98%);height:min(700px,90vh);background:white;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,0.08);position:relative;overflow:hidden;display:flex;flex-direction:column;
-  }
-  header{padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
-  h1{margin:0;font-size:18px;color:var(--muted)}
-  .controls{display:flex;gap:8px;align-items:center}
-  button{background:linear-gradient(180deg,var(--accent),#ff2b68);color:white;border:0;padding:8px 12px;border-radius:10px;font-weight:700;cursor:pointer;box-shadow:0 6px 16px rgba(255,77,130,0.18)}
-  button.ghost{background:transparent;color:var(--accent);box-shadow:none;border:1px solid rgba(255,77,130,0.12)}
-  /* play area */
-  .playArea{flex:1;position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:12px}
-  /* popper (circle) */
-  .popper{
-    width:86px;height:86px;border-radius:50%;display:grid;place-items:center;font-size:28px;background:linear-gradient(180deg,#fff, #ffe7f0);border:2px solid rgba(255,77,130,0.08);
-    box-shadow:0 8px 30px rgba(255,77,130,0.08), inset 0 -6px 14px rgba(255,77,130,0.03);
-    position:absolute; transform:translate(-50%,-50%); user-select:none;
-  }
-  /* confetti pieces */
-  .piece{
-    position:absolute;pointer-events:none;font-size:18px;will-change:transform,opacity;
-    text-shadow:0 1px 0 rgba(0,0,0,0.05);
-  }
-  /* final message */
-  .message{
-    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:20px;pointer-events:none;
-  }
-  .msgText{
-    font-size:40px;font-weight:800;color:var(--accent);opacity:0;transform:translateY(10px);
-    letter-spacing:0.8px;text-align:center;
-  }
-  .sub{
-    margin-top:8px;color:var(--muted);font-weight:600;opacity:0;transform:translateY(10px)
-  }
-  /* reveal animations */
-  .showText { animation:reveal 900ms cubic-bezier(.2,.9,.2,1) forwards; }
-  .showSub { animation:reveal 900ms cubic-bezier(.2,.9,.2,1) forwards; animation-delay:400ms; }
-  @keyframes reveal {
-    to { opacity:1; transform:translateY(0); }
-  }
-  /* small replay button overlay */
-  .replayWrap{position:absolute;right:16px;bottom:16px;z-index:40}
-  /* subtle background hearts */
-  .bgHeart{position:absolute;font-size:120px;opacity:0.06;pointer-events:none;transform:translate(-50%,-50%); filter:blur(1px)}
-  /* responsive */
-  @media (max-width:600px){
-    .msgText{font-size:28px}
-    .popper{width:68px;height:68px;font-size:22px}
-  }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>10,000 Kisses 💋</title>
+  <style>
+    :root{
+      --bg:#fff0f6;
+      --card:#fff;
+      --accent:#ff6fa3;
+    }
+    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+    body{
+      background: linear-gradient(180deg, var(--bg), #ffeaf2);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+    .card{
+      width:min(1100px,98%);
+      max-height:90vh;
+      background:var(--card);
+      border-radius:14px;
+      box-shadow:0 8px 30px rgba(0,0,0,0.08);
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      overflow:hidden;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    h1{margin:0;font-size:20px;color:#7a0b3a;letter-spacing:0.2px}
+    .controls{display:flex;gap:8px;align-items:center}
+    button{
+      padding:8px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:600;
+      background:linear-gradient(180deg,var(--accent),#ff3f7a);color:white;
+      box-shadow:0 4px 10px rgba(255,95,150,0.18);
+    }
+    button.ghost{background:transparent;color:var(--accent);box-shadow:none;border:1px solid rgba(122,11,58,0.08)}
+    .info{font-size:13px;color:#6b2b44}
+    .kissesWrap{
+      overflow:auto;
+      padding:14px;
+      border-radius:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
+      border:1px dashed rgba(122,11,58,0.06);
+      flex:1;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+    }
+    .kisses{
+      font-size:22px;
+      line-height:1.6;
+      word-break:break-word;
+      text-align:center;
+      width:100%;
+      max-width:1000px;
+      padding:6px;
+      user-select:text;
+      letter-spacing:2px;
+    }
+    .footer{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#6b2b44}
+    .count{font-weight:700;color:var(--accent)}
+    /* subtle floating hearts animation (decorative) */
+    .float-emoji{
+      position:fixed;right:18px;bottom:18px;font-size:18px;opacity:0.9;pointer-events:none;
+      animation:floatUp 6s linear infinite;
+    }
+    @keyframes floatUp{
+      0%{transform:translateY(0) rotate(0deg)}
+      50%{transform:translateY(-18px) rotate(8deg)}
+      100%{transform:translateY(0) rotate(0deg)}
+    }
+  </style>
 </head>
 <body>
-  <div class="stage" id="stage" role="main" aria-live="polite">
+  <div class="card" role="main" aria-label="10,000 kisses">
     <header>
-      <h1>Pop the poppers — surprise message</h1>
-      <div class="controls" aria-hidden="false">
-        <button id="start">Play</button>
-        <button id="replay" class="ghost">Replay</button>
+      <div>
+        <h1>10,000 Kisses 💋</h1>
+        <div class="info">A big wall of kisses — generated in your browser.</div>
+      </div>
+      <div class="controls">
+        <label for="howMany" class="info" style="margin-right:6px">Count:</label>
+        <input id="howMany" type="number" min="1" max="2000000" value="10000" style="width:110px;padding:6px;border-radius:8px;border:1px solid #ffd7e6" />
+        <button id="generate">Generate</button>
+        <button id="copy" class="ghost">Copy</button>
+        <button id="download" class="ghost">Download</button>
       </div>
     </header>
 
-    <div class="playArea" id="playArea">
-      <!-- decorative background hearts -->
-      <div class="bgHeart" style="left:15%;top:12%">💞</div>
-      <div class="bgHeart" style="left:85%;top:24%">💕</div>
-      <div class="bgHeart" style="left:50%;top:88%">💗</div>
-
-      <!-- message overlay -->
-      <div class="message" id="message" aria-hidden="true">
-        <div id="msgText" class="msgText">I love you, baby girl</div>
-        <div id="msgSub" class="sub">Always & forever 💋</div>
+    <div class="kissesWrap" id="wrap" aria-live="polite">
+      <div id="kisses" class="kisses" title="Ten-thousand kisses will appear here">
+        <!-- generated kisses go here -->
       </div>
     </div>
 
-    <div class="replayWrap">
-      <button id="replayBtn" class="ghost">Replay</button>
+    <div class="footer">
+      <div>Tip: change the count and hit Generate — you can make more or fewer kisses.</div>
+      <div><span class="count" id="countLabel">0</span> kisses</div>
     </div>
   </div>
 
-<script>
-  // Configuration
-  const POPPERS = 8;           // how many poppers will pop, sequentially
-  const PIECES_PER_POP = 28;   // pieces per popper
-  const POP_INTERVAL = 520;    // ms between popper starts
-  const STAGE = document.getElementById('stage');
-  const PLAY = document.getElementById('playArea');
-  const startBtn = document.getElementById('start');
-  const replayBtn = document.getElementById('replayBtn');
-  const replayHeaderBtn = document.getElementById('replay');
-  const message = document.getElementById('message');
-  const msgText = document.getElementById('msgText');
-  const msgSub = document.getElementById('msgSub');
+  <div class="float-emoji">💞</div>
 
-  // Emoji pool for pieces
-  const PIECE_EMOJI = ['💋','🎉','💖','🌟','💞','✨','❤️','💕'];
+  <script>
+    // Helper: generate the kisses string and inject efficiently
+    const kissesEl = document.getElementById('kisses');
+    const countLabel = document.getElementById('countLabel');
+    const howMany = document.getElementById('howMany');
+    const generateBtn = document.getElementById('generate');
+    const copyBtn = document.getElementById('copy');
+    const downloadBtn = document.getElementById('download');
 
-  // Utility: random in range
-  const rand = (min,max) => Math.random()*(max-min)+min;
-
-  // Create a popper at (x,y) relative to play area (0..1)
-  function createPopper(normalX, normalY, index){
-    const r = PLAY.getBoundingClientRect();
-    const x = r.left + normalX * r.width;
-    const y = r.top + normalY * r.height;
-    const pop = document.createElement('div');
-    pop.className = 'popper';
-    pop.style.left = `${normalX*100}%`;
-    pop.style.top = `${normalY*100}%`;
-    pop.style.zIndex = 30 + index;
-    pop.innerHTML = '🎈';
-    PLAY.appendChild(pop);
-    return {el: pop, x: x, y: y};
-  }
-
-  // Burst pieces
-  function burst(popperObj, pieces = PIECES_PER_POP){
-    const {el, x, y} = popperObj;
-    // pop sound visual effect (scale + fade)
-    el.animate([
-      { transform: 'translate(-50%,-50%) scale(1)', opacity:1 },
-      { transform: 'translate(-50%,-50%) scale(1.25)', opacity:0.95 },
-      { transform: 'translate(-50%,-50%) scale(0.2)', opacity:0 }
-    ], { duration: 420, easing: 'cubic-bezier(.2,.9,.2,1)' });
-
-    for(let i=0;i<pieces;i++){
-      const piece = document.createElement('div');
-      piece.className = 'piece';
-      piece.textContent = PIECE_EMOJI[Math.floor(Math.random()*PIECE_EMOJI.length)];
-      // position at center
-      piece.style.left = (x - PLAY.getBoundingClientRect().left) + 'px';
-      piece.style.top = (y - PLAY.getBoundingClientRect().top) + 'px';
-      // random velocity and rotation
-      const angle = rand(0, Math.PI*2);
-      const speed = rand(140, 520); // px per second
-      const vx = Math.cos(angle)*speed;
-      const vy = Math.sin(angle)*speed - rand(80,240); // give upward bias
-      const rot = rand(-720,720);
-      PLAY.appendChild(piece);
-
-      // Animate using Web Animations API for smoother results
-      const duration = rand(700, 1400);
-      const translateX = vx;
-      const translateY = vy + 400; // gravity pull over duration
-      piece.animate([
-        { transform: `translate(0px,0px) rotate(0deg)`, opacity:1 },
-        { transform: `translate(${translateX}px, ${translateY}px) rotate(${rot}deg)`, opacity:0 }
-      ], {
-        duration: duration,
-        easing: 'cubic-bezier(.15,.8,.35,1)',
-        fill: 'forwards'
-      });
-
-      // cleanup after animation
-      setTimeout(()=> piece.remove(), duration + 80);
+    // Create the string of N kisses. Uses native repeat which is fast.
+    function makeKisses(n){
+      // Safety clamp: ensure integer and non-negative
+      n = Math.max(0, Math.floor(Number(n) || 0));
+      // Build in chunks if extremely large to avoid memory spike (but repeat is fine for 10k)
+      const CHUNK = 5000;
+      if (n <= CHUNK) return '💋'.repeat(n);
+      let res = '';
+      let full = Math.floor(n / CHUNK);
+      let rem = n % CHUNK;
+      const chunkStr = '💋'.repeat(CHUNK);
+      for(let i=0;i<full;i++) res += chunkStr;
+      if (rem) res += '💋'.repeat(rem);
+      return res;
     }
 
-    // remove popper circle after short delay
-    setTimeout(()=> el.remove(), 520);
-  }
-
-  // Sequenced poppers across the stage
-  function playSequence(){
-    // reset message and clear older pieces
-    message.style.pointerEvents = 'none';
-    message.setAttribute('aria-hidden','true');
-    msgText.classList.remove('showText');
-    msgSub.classList.remove('showSub');
-    msgText.style.opacity = 0;
-    msgSub.style.opacity = 0;
-
-    // optionally clear stray pieces
-    Array.from(document.querySelectorAll('.piece, .popper')).forEach(n=>n.remove());
-
-    // compute positions (spread across lower half to center)
-    const positions = [];
-    for(let i=0;i<POPPERS;i++){
-      const t = i/(POPPERS-1 || 1);
-      const nx = 0.12 + 0.76*t + rand(-0.04,0.04);
-      const ny = 0.42 + Math.sin(t*Math.PI*1.2)*0.06 + rand(-0.03,0.03);
-      positions.push({x: Math.min(0.94, Math.max(0.06, nx)), y: Math.min(0.78, Math.max(0.18, ny))});
-    }
-
-    // schedule poppers
-    positions.forEach((pos, idx) => {
-      setTimeout(()=>{
-        const popper = createPopper(pos.x, pos.y, idx);
-        // small bounce to indicate pop
-        popper.el.animate([
-          { transform: 'translate(-50%,-50%) scale(0.98)' },
-          { transform: 'translate(-50%,-50%) scale(1.06)' },
-          { transform: 'translate(-50%,-50%) scale(1)' }
-        ], { duration: 220, easing: 'cubic-bezier(.2,.9,.2,1)'});
-        // after short delay, burst
-        setTimeout(()=> burst(popper, PIECES_PER_POP), 160);
-        // if last popper, show message after a short pause
-        if (idx === positions.length-1){
-          setTimeout(()=> revealMessage(), 900);
-        }
-      }, idx * POP_INTERVAL);
-    });
-  }
-
-  // Reveal final message with typing/fade
-  function revealMessage(){
-    message.style.pointerEvents = 'auto';
-    message.setAttribute('aria-hidden','false');
-    // typing effect: reveal chars one by one
-    const final = "I love you, baby girl";
-    const sub = "Always & forever 💋";
-    msgText.textContent = ''; msgSub.textContent = '';
-    // create typing timeline for text
-    let i = 0;
-    function step(){
-      if (i <= final.length){
-        msgText.textContent = final.slice(0,i);
-        i++;
-        setTimeout(step, 42);
-      } else {
-        // add show classes for polish
-        msgText.classList.add('showText');
-        // after small pause reveal sub
-        setTimeout(()=>{
-          msgSub.textContent = sub;
-          msgSub.classList.add('showSub');
-        }, 420);
+    // Render function with simple spacing
+    function render(n){
+      countLabel.textContent = n;
+      // Insert with spaces every 50 characters (optional) for nicer wrapping:
+      const raw = makeKisses(n);
+      // For performance, avoid creating huge HTML with lots of spans.
+      // We'll insert as plain text but add thin spaces occasionally to allow wrapping.
+      // Insert a thin space every 50 emojis so lines can break gracefully.
+      const group = 50;
+      if (n <= group) {
+        kissesEl.textContent = raw;
+        return;
       }
+      // Build groups for readable lines
+      let out = '';
+      for (let i=0;i<n;i+=group){
+        out += raw.slice(i, i+group) + (i+group < n ? '\n\n' : '');
+      }
+      kissesEl.textContent = out;
     }
-    step();
-    // also create a soft shower of tiny hearts during reveal
-    createSoftHearts(16);
-  }
 
-  function createSoftHearts(n){
-    const r = PLAY.getBoundingClientRect();
-    for(let k=0;k<n;k++){
-      const el = document.createElement('div');
-      el.className = 'piece';
-      el.textContent = ['💗','💞','💕'][Math.floor(Math.random()*3)];
-      // start near center
-      el.style.left = (r.width*0.5 + rand(-120,120)) + 'px';
-      el.style.top = (r.height*0.35 + rand(-30,30)) + 'px';
-      PLAY.appendChild(el);
-      const dur = rand(900,1700);
-      const dx = rand(-140,140), dy = rand(-240,-60);
-      el.animate([
-        { transform: 'translate(0px,0px) scale(1)', opacity:1 },
-        { transform: `translate(${dx}px, ${dy}px) scale(1.15)`, opacity:0.02 }
-      ], { duration: dur, easing:'cubic-bezier(.2,.9,.2,1)', fill:'forwards' });
-      setTimeout(()=> el.remove(), dur+80);
-    }
-  }
+    // Initial render
+    render(10000);
 
-  // Hook up buttons
-  startBtn.addEventListener('click', ()=>{
-    playSequence();
-  });
-  replayBtn.addEventListener('click', ()=>{
-    playSequence();
-  });
-  replayHeaderBtn.addEventListener('click', ()=>{
-    playSequence();
-  });
+    generateBtn.addEventListener('click', ()=>{
+      const n = Math.min(1_000_000, Math.max(1, Number(howMany.value) || 10000)); // clamp to reasonable max
+      howMany.value = n;
+      // Small visual hint while generating
+      generateBtn.disabled = true;
+      generateBtn.textContent = 'Generating…';
+      // Use requestAnimationFrame to let UI update
+      requestAnimationFrame(()=> {
+        render(n);
+        generateBtn.disabled = false;
+        generateBtn.textContent = 'Generate';
+      });
+    });
 
-  // Auto-play once on load (optional)
-  window.addEventListener('load', ()=> {
-    // slight delay so layout stabilizes
-    setTimeout(()=> playSequence(), 420);
-  });
+    copyBtn.addEventListener('click', async ()=>{
+      try {
+        const text = kissesEl.textContent || '';
+        await navigator.clipboard.writeText(text);
+        copyBtn.textContent = 'Copied ✓';
+        setTimeout(()=> copyBtn.textContent = 'Copy', 1500);
+      } catch(e){
+        alert('Copy failed. You can select the kisses and press Ctrl+C (Cmd+C).');
+      }
+    });
 
-  // accessibility: allow space to replay
-  window.addEventListener('keydown', (e)=>{
-    if (e.key === ' ' || e.key === 'Enter') {
-      e.preventDefault();
-      playSequence();
-    }
-  });
-</script>
+    downloadBtn.addEventListener('click', ()=>{
+      const text = kissesEl.textContent || '';
+      const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `kisses-${countLabel.textContent}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    // Keyboard shortcut: G to generate
+    window.addEventListener('keydown', (e)=>{
+      if ((e.key === 'g' || e.key === 'G') && (document.activeElement.tagName !== 'INPUT')) {
+        e.preventDefault();
+        generateBtn.click();
+      }
+    });
+  </script>
 </body>
 </html>
+
